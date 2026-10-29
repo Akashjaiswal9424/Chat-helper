@@ -1,7 +1,8 @@
 name: Build APK
 on:
   push:
-    workflow_dispatch:
+  workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-24.04
@@ -22,8 +23,12 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: 8.7
 
       - name: Build with Gradle
         run: gradle assembleDebug --no-daemon
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug
+          path: app/build/outputs/apk/debug/*.apk
